@@ -235,7 +235,7 @@
             <button type="submit" class="submit-btn">Enter</button>
           </div>
 
-          <p class="hint">※ ヒント：2人で行きたかった場所</p></p>
+          <p class="hint">※ ヒント：2人で行きたかった場所</p>
           <div id="response" class="response" aria-live="polite"></div>
         </form>
       </div>
@@ -243,37 +243,45 @@
   </main>
 
   <script>
-    const form = document.getElementById("passwordForm");
-    const input = document.getElementById("passwordInput");
-    const response = document.getElementById("response");
+  const form = document.getElementById("passwordForm");
+  const input = document.getElementById("passwordInput");
+  const response = document.getElementById("response");
 
-    // 合言葉はここで変更
-    const correctPassword = "三ノ瀬山"or"sannoseyama"or"sannnoseyama";
+  // 合言葉候補
+  const correctPasswords = [
+    "三ノ瀬山",
+    "三の瀬山",
+    "さんのせやま",
+    "sannoseyama",
+    "sannnoseyama"
+  ];
 
-    form.addEventListener("submit", function (e) {
-      e.preventDefault();
+  form.addEventListener("submit", function (e) {
+    e.preventDefault();
 
-      const value = input.value.trim().toLowerCase();
+    const value = input.value.trim().toLowerCase();
 
-      if (!value) {
-        response.textContent = "Password required.";
-        response.className = "response error";
-        return;
-      }
+    if (!value) {
+      response.textContent = "Password required.";
+      response.className = "response error";
+      return;
+    }
 
-      if (value === correctPassword) {
-        response.textContent = "Access granted.";
-        response.className = "response success";
-
-        // ここを遷移先URLに変える
-        setTimeout(() => {
-          window.location.href = "https://ryosukeucchi0112-boop.github.io/suzuki-chat-archive/";
-        }, 700);
-      } else {
-        response.textContent = "Access denied.";
-        response.className = "response error";
-      }
+    const isCorrect = correctPasswords.some(function (password) {
+      return password.toLowerCase() === value;
     });
-  </script>
-</body>
+
+    if (isCorrect) {
+      response.textContent = "Access granted.";
+      response.className = "response success";
+
+      setTimeout(() => {
+        window.location.href = "https://ryosukeucchi0112-boop.github.io/suzuki-chat-archive/";
+      }, 700);
+    } else {
+      response.textContent = "Access denied.";
+      response.className = "response error";
+    }
+  });
+</script>
 </html>
