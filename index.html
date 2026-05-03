@@ -4,17 +4,20 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>403 Forbidden</title>
+
   <style>
     :root {
-      --bg: #f3f0e7;
-      --panel: rgba(255, 255, 255, 0.28);
-      --line: rgba(34, 34, 34, 0.7);
-      --text: #171717;
-      --sub: #4b4b4b;
-      --hint: #7a2222;
-      --input-bg: rgba(255, 255, 255, 0.78);
-      --input-line: rgba(26, 26, 26, 0.7);
-      --shadow: rgba(0, 0, 0, 0.035);
+      --fiction-header-height: 32px;
+      --bg: #f4efe6;
+      --text: #211f1b;
+      --muted: #7b7369;
+      --line: rgba(33, 31, 27, 0.18);
+      --panel: rgba(255, 252, 246, 0.72);
+      --panel-border: rgba(33, 31, 27, 0.14);
+      --button: #24211d;
+      --button-hover: #3a352f;
+      --error: #8d2f25;
+      --success: #355f45;
     }
 
     * {
@@ -25,263 +28,365 @@
     body {
       margin: 0;
       min-height: 100%;
-      background: var(--bg);
-      color: var(--text);
-      font-family:
-        "Georgia",
-        "Times New Roman",
-        "Yu Mincho",
-        "Hiragino Mincho ProN",
-        serif;
-      letter-spacing: 0.01em;
     }
 
     body {
-      position: relative;
+      background:
+        radial-gradient(circle at 50% 18%, rgba(255, 255, 255, 0.65), transparent 34%),
+        linear-gradient(180deg, #fbf7ef 0%, var(--bg) 52%, #e8dfd2 100%);
+      color: var(--text);
+      font-family:
+        "Times New Roman",
+        "Yu Mincho",
+        "Hiragino Mincho ProN",
+        "YuMincho",
+        serif;
       overflow-x: hidden;
     }
 
-    body::before {
-      content: "";
+    /*
+      共通フィクションヘッダー
+      ※このヘッダー以外は固定しない
+    */
+    .fiction-header {
       position: fixed;
-      inset: 0;
-      pointer-events: none;
-      background:
-        radial-gradient(circle at 20% 15%, rgba(120, 120, 120, 0.06), transparent 30%),
-        radial-gradient(circle at 80% 20%, rgba(90, 90, 90, 0.04), transparent 26%),
-        radial-gradient(circle at 50% 80%, rgba(80, 80, 80, 0.03), transparent 34%);
-      mix-blend-mode: multiply;
+      top: 0;
+      left: 0;
+      z-index: 1000;
+      width: 100%;
+      height: var(--fiction-header-height);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 0 14px;
+      background: rgba(88, 88, 88, 0.94);
+      color: #f2f2f2;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.16);
+      font-family:
+        system-ui,
+        -apple-system,
+        BlinkMacSystemFont,
+        "Hiragino Sans",
+        "Yu Gothic",
+        "YuGothic",
+        sans-serif;
+      font-size: 11px;
+      font-weight: 500;
+      line-height: 1;
+      letter-spacing: 0.04em;
+      text-align: center;
     }
 
     .page {
       min-height: 100vh;
-      padding: 56px 28px 72px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-    }
-
-    .frame {
-      width: min(1120px, 100%);
-      min-height: 78vh;
-      border: 1.5px solid var(--line);
-      background: var(--panel);
-      box-shadow: 0 14px 40px var(--shadow);
-      display: flex;
-      align-items: flex-start;
-      justify-content: center;
-      padding: 96px 40px 120px;
-    }
-
-    .content {
-      width: min(760px, 100%);
-      text-align: center;
-    }
-
-    .status {
-      margin: 0 0 20px;
-      font-size: clamp(2.8rem, 8vw, 5.4rem);
-      font-weight: 400;
-      line-height: 1;
-      letter-spacing: 0.01em;
-    }
-
-    .message {
-      margin: 0 auto 12px;
-      max-width: 720px;
-      font-size: clamp(1rem, 2vw, 1.28rem);
-      color: var(--sub);
-      line-height: 1.9;
-    }
-
-    .sub-message {
-      margin: 0 auto 44px;
-      max-width: 620px;
-      font-size: 0.96rem;
-      color: rgba(45, 45, 45, 0.85);
-      line-height: 1.8;
-    }
-
-    .password-form {
-      width: 100%;
+      padding: calc(var(--fiction-header-height) + 56px) 20px 36px;
       display: flex;
       flex-direction: column;
       align-items: center;
-      gap: 12px;
     }
 
-    .input-row {
-      width: min(420px, 100%);
-      display: flex;
-      gap: 10px;
-      align-items: center;
-      justify-content: center;
+    .access-card {
+      width: min(100%, 560px);
+      margin: auto 0;
+      padding: 46px 34px 34px;
+      background: var(--panel);
+      border: 1px solid var(--panel-border);
+      box-shadow:
+        0 24px 80px rgba(58, 47, 34, 0.12),
+        inset 0 1px 0 rgba(255, 255, 255, 0.42);
+      backdrop-filter: blur(8px);
+      text-align: center;
     }
 
-    .password-input {
-      width: 100%;
-      height: 50px;
-      padding: 0 16px;
-      border: 1.5px solid var(--input-line);
-      background: var(--input-bg);
-      color: var(--text);
-      font-size: 1rem;
-      font-family: inherit;
-      outline: none;
-      transition: border-color 0.2s ease, background 0.2s ease;
+    .status-code {
+      margin: 0 0 18px;
+      font-size: clamp(54px, 11vw, 96px);
+      font-weight: 400;
+      line-height: 0.9;
+      letter-spacing: -0.055em;
     }
 
-    .password-input:focus {
-      border-color: #111;
-      background: #fff;
+    .status-label {
+      margin: 0 0 10px;
+      font-size: clamp(30px, 6vw, 54px);
+      font-weight: 400;
+      line-height: 1;
+      letter-spacing: -0.045em;
     }
 
-    .password-input::placeholder {
-      color: rgba(60, 60, 60, 0.4);
+    .divider {
+      width: 76px;
+      height: 1px;
+      margin: 24px auto;
+      background: var(--line);
     }
 
-    .submit-btn {
-      height: 50px;
-      padding: 0 18px;
-      border: 1.5px solid var(--input-line);
-      background: transparent;
-      color: var(--text);
-      font-family: inherit;
-      font-size: 0.95rem;
-      cursor: pointer;
-      transition: background 0.2s ease, color 0.2s ease;
-      white-space: nowrap;
-    }
-
-    .submit-btn:hover {
-      background: #151515;
-      color: #f6f3ea;
-    }
-
-    .hint {
-      margin-top: 4px;
-      font-size: 0.92rem;
-      color: var(--hint);
+    .description {
+      margin: 0;
+      color: var(--muted);
+      font-size: 14px;
+      line-height: 1.9;
       letter-spacing: 0.02em;
     }
 
-    .response {
+    .pass-form {
+      width: min(100%, 360px);
+      margin: 30px auto 0;
+    }
+
+    .input-wrap {
+      display: flex;
+      gap: 8px;
+      align-items: stretch;
+    }
+
+    input[type="text"] {
+      width: 100%;
+      min-width: 0;
+      padding: 13px 14px;
+      border: 1px solid rgba(33, 31, 27, 0.26);
+      border-radius: 0;
+      background: rgba(255, 255, 255, 0.72);
+      color: var(--text);
+      font-family:
+        system-ui,
+        -apple-system,
+        BlinkMacSystemFont,
+        "Hiragino Sans",
+        "Yu Gothic",
+        "YuGothic",
+        sans-serif;
+      font-size: 14px;
+      letter-spacing: 0.03em;
+      outline: none;
+    }
+
+    input[type="text"]::placeholder {
+      color: rgba(123, 115, 105, 0.62);
+    }
+
+    input[type="text"]:focus {
+      border-color: rgba(33, 31, 27, 0.56);
+      background: rgba(255, 255, 255, 0.92);
+      box-shadow: 0 0 0 3px rgba(33, 31, 27, 0.06);
+    }
+
+    button {
+      flex: 0 0 auto;
+      padding: 0 18px;
+      border: 1px solid var(--button);
+      border-radius: 0;
+      background: var(--button);
+      color: #fff;
+      font-family:
+        system-ui,
+        -apple-system,
+        BlinkMacSystemFont,
+        "Hiragino Sans",
+        "Yu Gothic",
+        "YuGothic",
+        sans-serif;
+      font-size: 13px;
+      font-weight: 600;
+      letter-spacing: 0.08em;
+      cursor: pointer;
+      transition:
+        background 0.18s ease,
+        opacity 0.18s ease,
+        transform 0.18s ease;
+    }
+
+    button:hover {
+      background: var(--button-hover);
+    }
+
+    button:active {
+      transform: translateY(1px);
+    }
+
+    button:disabled {
+      cursor: default;
+      opacity: 0.58;
+    }
+
+    .hint {
+      margin: 14px 0 0;
+      color: var(--muted);
+      font-size: 12px;
+      line-height: 1.8;
+      letter-spacing: 0.03em;
+    }
+
+    .message {
       min-height: 24px;
-      margin-top: 12px;
-      font-size: 0.92rem;
-      color: #222;
+      margin: 16px 0 0;
+      font-size: 13px;
+      line-height: 1.7;
+      letter-spacing: 0.03em;
+      font-family:
+        system-ui,
+        -apple-system,
+        BlinkMacSystemFont,
+        "Hiragino Sans",
+        "Yu Gothic",
+        "YuGothic",
+        sans-serif;
     }
 
-    .response.error {
-      color: #7a2222;
+    .message.error {
+      color: var(--error);
     }
 
-    .response.success {
-      color: #204d2c;
+    .message.success {
+      color: var(--success);
     }
 
-    @media (max-width: 720px) {
+    .fiction-footer {
+      width: min(100%, 720px);
+      margin-top: 42px;
+      padding-top: 18px;
+      border-top: 1px solid rgba(33, 31, 27, 0.12);
+      color: rgba(75, 68, 60, 0.72);
+      font-family:
+        system-ui,
+        -apple-system,
+        BlinkMacSystemFont,
+        "Hiragino Sans",
+        "Yu Gothic",
+        "YuGothic",
+        sans-serif;
+      font-size: 11px;
+      line-height: 1.8;
+      text-align: center;
+      letter-spacing: 0.02em;
+    }
+
+    @media (max-width: 560px) {
       .page {
-        padding: 20px 14px 32px;
+        padding: calc(var(--fiction-header-height) + 44px) 16px 28px;
       }
 
-      .frame {
-        min-height: 88vh;
-        padding: 64px 22px 80px;
+      .access-card {
+        padding: 40px 22px 28px;
       }
 
-      .input-row {
+      .input-wrap {
         flex-direction: column;
       }
 
-      .submit-btn {
+      button {
         width: 100%;
+        height: 44px;
       }
 
-      .status {
-        margin-bottom: 24px;
-      }
-
-      .sub-message {
-        margin-bottom: 34px;
+      .fiction-header {
+        font-size: 10px;
+        letter-spacing: 0.02em;
       }
     }
   </style>
 </head>
+
 <body>
+  <div class="fiction-header">
+    FICTIONAL INTERFACE — このページは創作作品内の架空UIです
+  </div>
+
   <main class="page">
-    <section class="frame">
-      <div class="content">
-        <h1 class="status">Forbidden.</h1>
+    <section class="access-card" aria-labelledby="page-title">
+      <p class="status-code">403</p>
+      <h1 id="page-title" class="status-label">Forbidden.</h1>
 
-        <p class="message">
-          You don't have permission to access this resource.
-        </p>
+      <div class="divider" aria-hidden="true"></div>
 
-        <p class="sub-message">
-          Enter your password to continue.
-        </p>
+      <p class="description">
+        Access to this archive is restricted.<br />
+        Enter passphrase to continue.
+      </p>
 
-        <form class="password-form" id="passwordForm">
-          <div class="input-row">
-            <input
-              type="password"
-              id="passwordInput"
-              class="password-input"
-              placeholder=""
-              autocomplete="off"
-              aria-label="password"
-            />
-            <button type="submit" class="submit-btn">Enter</button>
-          </div>
+      <form class="pass-form" id="passForm" autocomplete="off">
+        <div class="input-wrap">
+          <input
+            id="passwordInput"
+            type="text"
+            name="passphrase"
+            placeholder="passphrase"
+            autocomplete="off"
+            autocapitalize="off"
+            spellcheck="false"
+            aria-label="passphrase"
+          />
+          <button id="submitButton" type="submit">ENTER</button>
+        </div>
 
-          <p class="hint">※ ヒント：2人で行きたかった場所</p>
-          <div id="response" class="response" aria-live="polite"></div>
-        </form>
-      </div>
+        <p class="hint">※ ヒント：2人で行きたかった場所</p>
+        <p id="message" class="message" aria-live="polite"></p>
+      </form>
     </section>
+
+    <footer class="fiction-footer">
+      このページはARG作品内の架空アクセス画面です。実在のサービス・組織・認証システムとは関係ありません。<br />
+      人物・施設・風景等の画像はAI生成画像または加工画像を含み、実在の人物・団体・施設とは関係ありません。
+    </footer>
   </main>
 
   <script>
-  const form = document.getElementById("passwordForm");
-  const input = document.getElementById("passwordInput");
-  const response = document.getElementById("response");
+    const form = document.getElementById("passForm");
+    const input = document.getElementById("passwordInput");
+    const message = document.getElementById("message");
+    const submitButton = document.getElementById("submitButton");
 
-  // 合言葉候補
-  const correctPasswords = [
-    "三ノ瀬山",
-    "三の瀬山",
-    "さんのせやま",
-    "sannoseyama",
-    "sannnoseyama"
-  ];
+    const destinationUrl = "https://ryosukeucchi0112-boop.github.io/suzuki-chat-archive/";
 
-  form.addEventListener("submit", function (e) {
-    e.preventDefault();
+    const acceptedPassphrases = [
+      "三ノ瀬山",
+      "三の瀬山",
+      "さんのせやま",
+      "sannoseyama",
+      "sannnoseyama"
+    ];
 
-    const value = input.value.trim().toLowerCase();
-
-    if (!value) {
-      response.textContent = "Password required.";
-      response.className = "response error";
-      return;
+    function normalizeInput(text) {
+      return text
+        .trim()
+        .replace(/\s+/g, "")
+        .replace(/　+/g, "")
+        .toLowerCase();
     }
 
-    const isCorrect = correctPasswords.some(function (password) {
-      return password.toLowerCase() === value;
+    function setMessage(text, type) {
+      message.textContent = text;
+      message.className = `message ${type || ""}`.trim();
+    }
+
+    form.addEventListener("submit", (event) => {
+      event.preventDefault();
+
+      const value = normalizeInput(input.value);
+      const normalizedAccepted = acceptedPassphrases.map(normalizeInput);
+
+      if (!value) {
+        setMessage("合言葉を入力してください。", "error");
+        input.focus();
+        return;
+      }
+
+      if (normalizedAccepted.includes(value)) {
+        setMessage("認証しました。アーカイブへ接続しています。", "success");
+
+        submitButton.disabled = true;
+        input.disabled = true;
+
+        setTimeout(() => {
+          window.location.href = destinationUrl;
+        }, 700);
+
+        return;
+      }
+
+      setMessage("合言葉が一致しません。", "error");
+      input.select();
     });
-
-    if (isCorrect) {
-      response.textContent = "Access granted.";
-      response.className = "response success";
-
-      setTimeout(() => {
-        window.location.href = "https://ryosukeucchi0112-boop.github.io/suzuki-chat-archive/";
-      }, 700);
-    } else {
-      response.textContent = "Access denied.";
-      response.className = "response error";
-    }
-  });
-</script>
+  </script>
+</body>
 </html>
